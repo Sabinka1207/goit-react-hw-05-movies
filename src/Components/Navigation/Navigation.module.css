@@ -1,0 +1,20 @@
+.navigation{
+    display: flex;
+    align-items: center;
+    height: 50px;
+    padding-left: 30px;
+    box-shadow: 0px 5px 5px 0px rgba(34, 60, 80, 0.6);
+}
+
+.link{
+    color: rgb(0, 0, 0);
+    font-size: larger;
+}
+
+.link:first-child{
+    margin-right: 20px;
+}
+
+.activeLink{
+    color: rgb(182, 53, 124);
+}
