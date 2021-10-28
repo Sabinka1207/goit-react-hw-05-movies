@@ -1,0 +1,16 @@
+.searchForm{
+    margin-top: 20px;
+    margin-bottom: 10px;
+    height: 30px;
+}
+
+.submitBtn{
+    width: 70px;
+    height: 100%;
+}
+
+.textArea{
+    margin-left: 10px;
+    width: 250px;
+    height: 100%;
+}

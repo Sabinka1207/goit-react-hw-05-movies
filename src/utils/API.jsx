@@ -18,10 +18,22 @@ const detailedMovie = async (id) => {
     return await result.data
 }
 
+const cast = async (id) => {
+    const result = await axios.get(`/movie/${id}/credits?api_key=${KEY}`)
+    return await result.data
+}
+
+const rewiev = async (id) => {
+    const result = await axios.get(`/movie/${id}/reviews?api_key=${KEY}`)
+    return await result.data
+}
+
 const movieAPI = {
     trendingToday,
     searchMovie,
-    detailedMovie
+    detailedMovie,
+    cast,
+    rewiev
 }
 
 export default movieAPI
