@@ -1,12 +1,18 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, lazy, Suspense } from "react"
 import { useParams, useRouteMatch } from "react-router"
 import { Route, useHistory } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+import Loader from "react-loader-spinner";
 import movieAPI from "../../utils/API"
 import css from "./DetailedMovieInfo.module.css"
-import Container from "../../utils/Container/Container";
-import Cast from "../Cast/Cast"
-import Rewiev from "../Rewiev/Rewiev"
+
+// import Container from "../../utils/Container/Container";
+// import Cast from "../Cast/Cast"
+// import Rewiev from "../Rewiev/Rewiev"
+
+const Container = lazy( () => import("../../utils/Container/Container") )
+const Cast = lazy( () => import("../Cast/Cast") )
+const Rewiev = lazy(() => import("../Rewiev/Rewiev"))
 
 function DetailedMovieInfo() {
     const [movieInfo, setMovieInfo] = useState({})
@@ -27,7 +33,8 @@ function DetailedMovieInfo() {
             setMovieInfo(info)
         }
         getMovie(movieId)
-    },[movieId])
+    }, [movieId])
+    
 
     const { poster_path, original_title, release_date, vote_average, overview, genres } = movieInfo
 
@@ -54,19 +61,26 @@ function DetailedMovieInfo() {
                     <li><NavLink to={`${url}/rewievs`}>Rewievs</NavLink></li>
                 </ul>
             </div>
-            
-            <Route path="/movies/:movieId/cast">
-                <Container>
-                    <Cast id={movieId}/>
-                </Container>
-            </Route>
-            
-            <Route path="/movies/:movieId/rewievs">
-                <Container>
-                    <Rewiev id={movieId} />
-                </Container>
-            </Route>   
-        </>
+
+            <Suspense fallback={<Loader
+                type="ThreeDots"
+                color="#cdcdcd"
+                height={100}
+                width={100} />}>
+                
+                <Route path="/movies/:movieId/cast">
+                    <Container>
+                        <Cast id={movieId}/>
+                    </Container>
+                </Route>
+                
+                <Route path="/movies/:movieId/rewievs">
+                    <Container>
+                        <Rewiev id={movieId} />
+                    </Container>
+                </Route>   
+            </Suspense>
+    </>
     )
 }
 
