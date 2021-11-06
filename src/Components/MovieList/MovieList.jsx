@@ -1,7 +1,10 @@
-import { useEffect } from "react"
+import { useEffect,  } from "react"
 import { Link } from "react-router-dom"
+import { useLocation } from "react-router"
 
 function MovieList({ list, clearList }) {
+    const location = useLocation()
+
     useEffect(() => {
         return () => {
             clearList([])
@@ -12,7 +15,10 @@ function MovieList({ list, clearList }) {
         <ul>
             {list.map(oneMovie => (
                 <li key={oneMovie.id}>
-                    <Link to={`/movies/${oneMovie.id}`}>{oneMovie.title}</Link>
+                    <Link to={{
+                        pathname: `/movies/${oneMovie.id}`,
+                        state: { from: location },
+                  }}>{oneMovie.title}</Link>
                 </li>
             ))}
         </ul>

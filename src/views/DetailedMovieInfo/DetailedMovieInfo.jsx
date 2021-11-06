@@ -1,5 +1,5 @@
 import { useState, useEffect, lazy, Suspense } from "react"
-import { useParams, useRouteMatch } from "react-router"
+import { useParams, useRouteMatch, useLocation } from "react-router"
 import { Route, useHistory } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import Loader from "react-loader-spinner";
@@ -19,6 +19,7 @@ function DetailedMovieInfo() {
     const { movieId } = useParams()
     const { url } = useRouteMatch()
     const history = useHistory()
+    const location = useLocation()
 
     useEffect(() => {
         async function getMovie(id) {
@@ -41,7 +42,7 @@ function DetailedMovieInfo() {
     return (
         <>
             <div className={css.container}>
-                <button type="button" onClick={() => history.goBack()}> ⮪ Go back</button>
+                <button type="button" onClick={() => history.push(location.state.from)}> ⮪ Go back</button>
                 <div className={css.mainInfo}>
                     {poster_path && <img className={css.poster} src={`https://image.tmdb.org/t/p/w300${poster_path}`} alt={original_title}></img>}
                     <div className={css.description}>
@@ -57,8 +58,14 @@ function DetailedMovieInfo() {
             <div className={`${css.additionalInfo} ${css.container}`}>
                 <p className={css.additionalInfoTitle}>Additional information</p>
                 <ul>
-                    <li><NavLink to={`${url}/cast`}>Cast</NavLink></li>
-                    <li><NavLink to={`${url}/rewievs`}>Rewievs</NavLink></li>
+                    <li><NavLink to={{
+                        pathname: `${url}/cast`,
+                        state: { from: location.state.from },
+                  }}>Cast</NavLink></li>
+                    <li><NavLink to={{
+                        pathname: `${url}/rewievs`,
+                        state: { from: location.state.from },
+                  }}>Rewievs</NavLink></li>
                 </ul>
             </div>
 
